@@ -15,7 +15,7 @@ const HomeScreen = () => {
 
   const handleLichSuGiaoDichPress = () => {
     // Điều hướng sang màn hình Lịch Sử Giao Dịch
-    navigation.navigate('LichSuGiaoDichScreen');
+    navigation.navigate('LikeTymCMTScreen');
   };
 
   return (

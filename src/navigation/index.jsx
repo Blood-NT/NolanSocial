@@ -7,7 +7,9 @@ import ForgotPassScreen from '../home/forgotPass';
 import HomeScreen from '../home/home';
 import { notifiContext } from "../context/notifiContext";
 import Notifi from "../components/Notifi";
-
+import LikeScreen from "../page/facebook/like";
+import LikeTymCMTScreen from "../page/facebook/likeTymCMT";
+import DrawerNavigator from "./drawerNavigator";
 const Stack = createNativeStackNavigator();
 
 export default function AppNav() {
@@ -25,6 +27,9 @@ export default function AppNav() {
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="LikeScreen" component={LikeScreen} />
+        <Stack.Screen name="LikeTymCMTScreen" component={LikeTymCMTScreen} />
+        <Stack.Screen name={"DrawerNavigator"} component={DrawerNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
     {notifi[0] && <Notifi notifi={notifi} setNotifi={setNotifi} />}
