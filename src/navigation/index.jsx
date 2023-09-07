@@ -1,3 +1,4 @@
+
 import React, { useContext } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,6 +11,7 @@ import Notifi from "../components/Notifi";
 import LikeScreen from "../page/facebook/like";
 import LikeTymCMTScreen from "../page/facebook/likeTymCMT";
 import DrawerNavigator from "./drawerNavigator";
+import 'react-native-gesture-handler';
 const Stack = createNativeStackNavigator();
 
 export default function AppNav() {
@@ -26,10 +28,10 @@ export default function AppNav() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
         <Stack.Screen name="LikeScreen" component={LikeScreen} />
         <Stack.Screen name="LikeTymCMTScreen" component={LikeTymCMTScreen} />
-        <Stack.Screen name={"DrawerNavigator"} component={DrawerNavigator} />
+        <Stack.Screen name="HomeScreen" component={DrawerNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
     {notifi[0] && <Notifi notifi={notifi} setNotifi={setNotifi} />}

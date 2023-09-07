@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const InsLikeVipScreen = () => {
+const InsLikeTayScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
     const [quantity, setQuantity] = useState('');
@@ -80,8 +80,7 @@ const InsLikeVipScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 30,
-        padding: 20,
+         padding: 20,
         backgroundColor: '#fff',
     },
     label: {
@@ -167,4 +166,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default  InsLikeVipScreen    ;
+export default  InsLikeTayScreen    ;

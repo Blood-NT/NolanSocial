@@ -48,7 +48,7 @@ export default function LoginScreen() {
 
     
     // Chuyển đến trang Home
-    navigation.navigate('Home');
+    navigation.navigate('HomeScreen');
   };
 
   const handleLogout = async () => {
