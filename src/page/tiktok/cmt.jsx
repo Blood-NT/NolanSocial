@@ -29,7 +29,7 @@ const TiktokCmtScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-                <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+                <Text style={styles.resultLabel}>Tăng coment tiktok</Text>
             </View>
 
             <Text style={styles.label}>Mã ghi nhớ:</Text>
@@ -51,7 +51,7 @@ const TiktokCmtScreen = () => {
                 value={quantity}
                 keyboardType="numeric"
             />
-            <Text style={styles.label}>Nhập nhiều dòng:</Text>
+            <Text style={styles.label}>Nhập nội dung (mối comment 1 dòng):</Text>
             <TextInput
                 style={styles.multiLineInput}
                 onChangeText={text => setMultiLineText(text)}

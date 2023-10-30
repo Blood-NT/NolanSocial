@@ -6,7 +6,7 @@ const FBFollowScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [multiLineText, setMultiLineText] = useState('');
+    const [price, setprice] = useState(10);
 
     const calculateTotal = () => {
         const parsedQuantity = parseFloat(quantity);
@@ -15,21 +15,20 @@ const FBFollowScreen = () => {
             return '0';
         }
 
-        const total = parsedQuantity *10;
+        const total = parsedQuantity * price;
         return total.toFixed(2);
     };
 
-    const handleBuyButtonPress = () => {
+    const handleBuyButtonPress = async () => {
         // Đếm số dòng trong multiLineText
-        const lineCount = (multiLineText.match(/\n/g) || []).length + 1;
-        console.log(`Số dòng: ${lineCount}`);
-        console.log(`Dữ liệu trong ô: ${multiLineText}`);
+        const res = await postFBFollow(memoryCode, path, quantity);
+        console.log(res);
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-                <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+                <Text style={styles.resultLabel}>Tăng follow</Text>
             </View>
 
             <Text style={styles.label}>Mã ghi nhớ:</Text>
@@ -51,15 +50,7 @@ const FBFollowScreen = () => {
                 value={quantity}
                 keyboardType="numeric"
             />
-            <Text style={styles.label}>Nhập nhiều dòng:</Text>
-            <TextInput
-                style={styles.multiLineInput}
-                onChangeText={text => setMultiLineText(text)}
-                value={multiLineText}
-                multiline={true} // Cho phép nhập nhiều dòng
-                numberOfLines={4} // Hiển thị 4 dòng, có thể cuộn khi cần
-                placeholder="Nhập nhiều dòng..."
-            />
+
             <View style={styles.resultContainer}>
                 <Text style={styles.resultLabel}>Thành tiền:</Text>
                 <Text style={styles.resultText}>{calculateTotal()} đ</Text>
@@ -82,7 +73,7 @@ const FBFollowScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-         padding: 20,
+        padding: 20,
         backgroundColor: '#fff',
     },
     label: {

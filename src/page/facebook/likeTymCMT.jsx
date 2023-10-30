@@ -6,7 +6,6 @@ const FBLikeTymCMTScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [selectedAlbum, setSelectedAlbum] = useState('');
     const [selectedSpeed, setSelectedSpeed] = useState('');
 
     const calculateTotal = () => {
@@ -16,10 +15,15 @@ const FBLikeTymCMTScreen = () => {
         if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
             return '0'; // Nếu quantity không hợp lệ, trả về '0.00'
         }
-
         const total = parsedQuantity * pricePerSpeed;
         return total;
     };
+    const handleBuyButton = async () => {
+        const res = await postFBLikeTymCMT(memoryCode, path, quantity, selectedSpeed);
+        console.log(res);
+    }
+    
+
 
     return (
         <View style={styles.container}>
@@ -65,7 +69,7 @@ const FBLikeTymCMTScreen = () => {
                 <Text style={styles.resultLabel}>Thành tiền:</Text>
                 <Text style={styles.resultText}>{calculateTotal()} đ</Text>
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleBuyButton}>
                 <Text style={styles.buttonText}>Mua</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.importantButton}>

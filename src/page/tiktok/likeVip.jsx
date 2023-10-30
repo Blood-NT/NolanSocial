@@ -8,7 +8,7 @@ const TiktokLikeVipScreen = () => {
     const [quantity, setQuantity] = useState('');
     const [selectedAlbum, setSelectedAlbum] = useState('');
     const [selectedSpeed, setSelectedSpeed] = useState('');
-    const [selectedLike, setSelectedLike] = useState('50');
+    const [selectedLike, setSelectedLike] = useState('');
     const [selectedDay, setSelectedDay] = useState('7');
 
     const calculateTotal = () => {
@@ -26,7 +26,7 @@ const TiktokLikeVipScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-                <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+                <Text style={styles.resultLabel}>Tăng like tym tiktok theo lịch</Text>
 
             </View>
 
@@ -49,49 +49,29 @@ const TiktokLikeVipScreen = () => {
                 value={quantity}
                 keyboardType="numeric"
             />
-            <Text style={styles.label}>Chọn số lượng like:</Text>
-            <Picker
-                selectedValue={selectedLike}
-                style={styles.picker}
-                onValueChange={(itemValue) => setSelectedLike(itemValue)}
-            >
-                <Picker.Item label="50 like" value="50" />
-                <Picker.Item label="100 like" value="100" />
-                <Picker.Item label="150 like" value="150" />
-                <Picker.Item label="200 like" value="200" />
-                <Picker.Item label="300 like" value="300" />
-                <Picker.Item label="400 like" value="400" />
-                <Picker.Item label="500 like" value="500" />
-                <Picker.Item label="600 like" value="600" />
-                <Picker.Item label="700 like" value="700" />
-                <Picker.Item label="800 like" value="800" />
-                <Picker.Item label="900 like" value="900" />
-                <Picker.Item label="1000 like" value="1000" />
-                <Picker.Item label="1500 like" value="1500" />
-                <Picker.Item label="2000 like" value="2000" />
-            </Picker>
-
-            <Text style={styles.label}>Chọn số lượng like:</Text>
+            <Text style={styles.label}>Chọn số ngày:</Text>
             <Picker
                 selectedValue={selectedDay}
                 style={styles.picker}
                 onValueChange={(itemValue) => setSelectedDay(itemValue)}
             >
-                <Picker.Item label="50 like" value="50" />
-                <Picker.Item label="100 like" value="100" />
-                <Picker.Item label="150 like" value="150" />
-                <Picker.Item label="200 like" value="200" />
-                <Picker.Item label="300 like" value="300" />
-                <Picker.Item label="400 like" value="400" />
-                <Picker.Item label="500 like" value="500" />
-                <Picker.Item label="600 like" value="600" />
-                <Picker.Item label="700 like" value="700" />
-                <Picker.Item label="800 like" value="800" />
-                <Picker.Item label="900 like" value="900" />
-                <Picker.Item label="1000 like" value="1000" />
-                <Picker.Item label="1500 like" value="1500" />
-                <Picker.Item label="2000 like" value="2000" />
+                <Picker.Item label="7 Ngày" value="7" />
+                <Picker.Item label="15 Ngày" value="15" />
+                <Picker.Item label="30 Ngày" value="30" />
+                <Picker.Item label="60 Ngày" value="60" />
+                <Picker.Item label="90 Ngày" value="90" />
+
             </Picker>
+
+            <Text style={styles.label}>Số lượng tym:</Text>
+            <TextInput
+                style={styles.input}
+                onChangeText={text => setSelectedLike(text)}
+                value={selectedLike}
+                keyboardType="numeric"
+            />
+
+
             <Text style={styles.label}>Server:</Text>
             <Picker
                 selectedValue={selectedSpeed}
@@ -125,7 +105,7 @@ const TiktokLikeVipScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-         padding: 20,
+        padding: 20,
         backgroundColor: '#fff',
     },
     label: {

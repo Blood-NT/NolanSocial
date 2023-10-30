@@ -28,7 +28,7 @@ const TiktokFollowScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-                <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+                <Text style={styles.resultLabel}>Tăng follow tiktok</Text>
             </View>
 
             <Text style={styles.label}>Mã ghi nhớ:</Text>

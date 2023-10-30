@@ -22,7 +22,7 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     // Xử lý đăng nhập ở đây (kiểm tra tên người dùng và mật khẩu, gọi API, vv.)
     // Nếu đăng nhập thành công, lưu trạng thái đăng nhập
-
+    console.log("click");
     if (!username || !password) {
       // Nếu người dùng để trống một trong các ô input, focus vào ô trống
       if (!username) {
@@ -37,16 +37,18 @@ export default function LoginScreen() {
     }
 
     const res = await login(username, password);
-    // console.log(res.success);
+    console.log("click done");
+
+    console.log(res);
     setNotifi(['Đăng nhập thành công']);
 
-  
-    
-    
+
+
+
     console.log('done');
     await SecureStore.setItemAsync('isLoggedIn', 'true');
 
-    
+
     // Chuyển đến trang Home
     navigation.navigate('HomeScreen');
   };
@@ -60,7 +62,7 @@ export default function LoginScreen() {
   return (
     <ImageBackground
       // source={require('../assets/background.jpg')}
-            
+
       style={styles.container}
     >
       <View style={styles.formContainer}>

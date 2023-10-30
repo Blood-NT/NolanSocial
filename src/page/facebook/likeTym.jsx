@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { postFBLikeTym } from '../../api/facebookAPI';
 
 const FBLikeTymScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
@@ -12,19 +13,21 @@ const FBLikeTymScreen = () => {
     const calculateTotal = () => {
         const pricePerSpeed = selectedSpeed === 'Thấp' ? 10 : 20;
         const parsedQuantity = parseFloat(quantity);
-
         if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
             return '0'; // Nếu quantity không hợp lệ, trả về '0.00'
         }
-
         const total = parsedQuantity * pricePerSpeed;
         return total.toFixed(2);
+    };
+    const handleBuyButtonPress = async () => {
+        const res = await postFBLikeTym(memoryCode, path, quantity,selectedAlbum,selectedSpeed);
+        console.log(res);
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-                <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+                <Text style={styles.resultLabel}>Tăng cảm xúc bài viết</Text>
 
             </View>
 
@@ -73,9 +76,11 @@ const FBLikeTymScreen = () => {
                 <Text style={styles.resultLabel}>Thành tiền:</Text>
                 <Text style={styles.resultText}>{calculateTotal()} đ</Text>
             </View>
-            <TouchableOpacity style={styles.button}>
+            
+            <TouchableOpacity style={styles.button} onPress={handleBuyButtonPress}>
                 <Text style={styles.buttonText}>Mua</Text>
             </TouchableOpacity>
+
             <TouchableOpacity style={styles.importantButton}>
                 <Text style={styles.importantButtonText}>
                     Mở công khai bài viết và mở cho mọi người like và comment.

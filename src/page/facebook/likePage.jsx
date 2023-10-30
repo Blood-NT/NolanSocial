@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { postFBLikePage } from '../../api/facebookAPI';
 
 const FBLikePageScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
@@ -17,11 +18,15 @@ const FBLikePageScreen = () => {
         const total = parsedQuantity * 10;
         return total;
     };
+    const handleBuyButtonPress = async () => {
+        const res = await postFBLikePage(memoryCode, path, quantity);
+        console.log(res);
+    };
 
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-            <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+            <Text style={styles.resultLabel}>Tăng like page</Text>
 
             </View>
 
@@ -49,7 +54,7 @@ const FBLikePageScreen = () => {
                 <Text style={styles.resultLabel}>Thành tiền:</Text>
                 <Text style={styles.resultText}>{calculateTotal()} đ</Text>
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleBuyButtonPress}>
                 <Text style={styles.buttonText}>Mua</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.importantButton}>

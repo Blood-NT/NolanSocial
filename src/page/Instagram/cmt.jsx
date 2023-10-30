@@ -29,7 +29,7 @@ const InsCmtScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-                <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+                <Text style={styles.resultLabel}>Tăng comment bài viết instagram</Text>
             </View>
 
             <Text style={styles.label}>Mã ghi nhớ:</Text>

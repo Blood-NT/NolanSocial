@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { postFBViewStory } from '../../api/facebookAPI';
 
 const FBViewStoryScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [multiLineText, setMultiLineText] = useState('');
 
     const calculateTotal = () => {
         const parsedQuantity = parseFloat(quantity);
@@ -18,17 +18,17 @@ const FBViewStoryScreen = () => {
         return total.toFixed(2);
     };
 
-    const handleBuyButtonPress = () => {
+    const handleBuyButtonPress = async() => {
         // Đếm số dòng trong multiLineText
-        const lineCount = (multiLineText.match(/\n/g) || []).length + 1;
-        console.log(`Số dòng: ${lineCount}`);
-        console.log(`Dữ liệu trong ô: ${multiLineText}`);
+        const res = await postFBViewStory(memoryCode, path, quantity);
+        console.log(res);
+
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-                <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+                <Text style={styles.resultLabel}>Tăng view story</Text>
             </View>
 
             <Text style={styles.label}>Mã ghi nhớ:</Text>
@@ -50,15 +50,7 @@ const FBViewStoryScreen = () => {
                 value={quantity}
                 keyboardType="numeric"
             />
-            <Text style={styles.label}>Nhập nhiều dòng:</Text>
-            <TextInput
-                style={styles.multiLineInput}
-                onChangeText={text => setMultiLineText(text)}
-                value={multiLineText}
-                multiline={true} // Cho phép nhập nhiều dòng
-                numberOfLines={4} // Hiển thị 4 dòng, có thể cuộn khi cần
-                placeholder="Nhập nhiều dòng..."
-            />
+
             <View style={styles.resultContainer}>
                 <Text style={styles.resultLabel}>Thành tiền:</Text>
                 <Text style={styles.resultText}>{calculateTotal()} đ</Text>

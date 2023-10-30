@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { postFBShareReal } from '../../api/facebookAPI';
 
 const FBShareRealScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
@@ -19,17 +20,16 @@ const FBShareRealScreen = () => {
         return total.toFixed(2);
     };
 
-    const handleBuyButtonPress = () => {
-        // Đếm số dòng trong multiLineText
-        const lineCount = (multiLineText.match(/\n/g) || []).length + 1;
-        console.log(`Số dòng: ${lineCount}`);
-        console.log(`Dữ liệu trong ô: ${multiLineText}`);
+    const handleBuyButtonPress = async() => {
+        const res = await postFBShareReal(memoryCode, path, quantity);
+        console.log(res);
+
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-                <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+                <Text style={styles.resultLabel}>Tăng share</Text>
             </View>
 
             <Text style={styles.label}>Mã ghi nhớ:</Text>
@@ -51,15 +51,7 @@ const FBShareRealScreen = () => {
                 value={quantity}
                 keyboardType="numeric"
             />
-            <Text style={styles.label}>Nhập nhiều dòng:</Text>
-            <TextInput
-                style={styles.multiLineInput}
-                onChangeText={text => setMultiLineText(text)}
-                value={multiLineText}
-                multiline={true} // Cho phép nhập nhiều dòng
-                numberOfLines={4} // Hiển thị 4 dòng, có thể cuộn khi cần
-                placeholder="Nhập nhiều dòng..."
-            />
+        
             <View style={styles.resultContainer}>
                 <Text style={styles.resultLabel}>Thành tiền:</Text>
                 <Text style={styles.resultText}>{calculateTotal()} đ</Text>

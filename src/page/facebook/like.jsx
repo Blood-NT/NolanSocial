@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { postFBLike } from '../../api/facebookAPI';
 
 const FBLikeScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
@@ -8,23 +9,32 @@ const FBLikeScreen = () => {
     const [quantity, setQuantity] = useState('');
     const [selectedAlbum, setSelectedAlbum] = useState('');
     const [selectedSpeed, setSelectedSpeed] = useState('');
+    const [price, setprice] = useState(10);
 
     const calculateTotal = () => {
         const pricePerSpeed = selectedSpeed === 'Thấp' ? 10 : 20;
+        // const priceAlbum = selectedSpeed === 'Album1' ? 10 : 20;
+
         const parsedQuantity = parseFloat(quantity);
 
         if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
-            return '0'; // Nếu quantity không hợp lệ, trả về '0.00'
+            return '0';
         }
 
-        const total = parsedQuantity * pricePerSpeed;
+        const total = parsedQuantity * pricePerSpeed * price;
         return total.toFixed(2);
     };
+    const handleBuyButtonPress = async () => {
+        // Đếm số dòng trong multiLineText
+        const res = await postFBLike(memoryCode,path,quantity,selectedAlbum,selectedSpeed);
+        console.log(res);
+    };
+
 
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-            <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+                <Text style={styles.resultLabel}>Tăng like bài viết</Text>
 
             </View>
 
@@ -53,8 +63,8 @@ const FBLikeScreen = () => {
                 style={styles.picker}
                 onValueChange={(itemValue, itemIndex) => setSelectedAlbum(itemValue)}
             >
-                <Picker.Item label="bài viết, ảnh, video" value="Album 1" />
-                <Picker.Item label="album" value="Album 2" />
+                <Picker.Item label="bài viết, ảnh, video" value="Album1" />
+                <Picker.Item label="album" value="Album2" />
                 {/* Thêm các tùy chọn album khác tại đây */}
             </Picker>
             <Text style={styles.label}>Tốc độ:</Text>
@@ -70,7 +80,7 @@ const FBLikeScreen = () => {
                 <Text style={styles.resultLabel}>Thành tiền:</Text>
                 <Text style={styles.resultText}>{calculateTotal()} đ</Text>
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleBuyButtonPress}>
                 <Text style={styles.buttonText}>Mua</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.importantButton}>
@@ -90,7 +100,7 @@ const FBLikeScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-         padding: 20,
+        padding: 20,
         backgroundColor: '#fff',
     },
     label: {

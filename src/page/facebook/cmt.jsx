@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-
+import {postFBCmt} from "../../api/facebookAPI";
 const FBCmtScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
     const [quantity, setQuantity] = useState('');
     const [multiLineText, setMultiLineText] = useState('');
-
+    const [price, setprice] = useState(10);
     const calculateTotal = () => {
         const parsedQuantity = parseFloat(quantity);
-
         if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
             return '0';
         }
 
-        const total = parsedQuantity *10;
+        const total = parsedQuantity *price;
         return total.toFixed(2);
     };
 
-    const handleBuyButtonPress = () => {
+    const handleBuyButtonPress = async() => {
         // Đếm số dòng trong multiLineText
+
+        const res = await postFBCmt(memoryCode, path, quantity, multiLineText);
+
         const lineCount = (multiLineText.match(/\n/g) || []).length + 1;
         console.log(`Số dòng: ${lineCount}`);
         console.log(`Dữ liệu trong ô: ${multiLineText}`);
@@ -29,7 +31,7 @@ const FBCmtScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
-                <Text style={styles.resultLabel}>Tăng like bài viết</Text>
+                <Text style={styles.resultLabel}>Tăng comment bài viết</Text>
             </View>
 
             <Text style={styles.label}>Mã ghi nhớ:</Text>
@@ -51,7 +53,7 @@ const FBCmtScreen = () => {
                 value={quantity}
                 keyboardType="numeric"
             />
-            <Text style={styles.label}>Nhập nhiều dòng:</Text>
+            <Text style={styles.label}>Nội dung cmt:</Text>
             <TextInput
                 style={styles.multiLineInput}
                 onChangeText={text => setMultiLineText(text)}
