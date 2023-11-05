@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { postFBFollow } from '../../api/facebookAPI';
 
 const FBFollowScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');

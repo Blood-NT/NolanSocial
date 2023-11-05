@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { postTiktokTym } from '../../api/tiktokAPI';
 
 const TiktokTymScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [multiLineText, setMultiLineText] = useState('');
 
     const calculateTotal = () => {
         const parsedQuantity = parseFloat(quantity);
@@ -14,15 +14,15 @@ const TiktokTymScreen = () => {
         if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
             return '0';
         }
-        const total = parsedQuantity *10;
+        const total = parsedQuantity * 10;
         return total.toFixed(2);
     };
 
-    const handleBuyButtonPress = () => {
-        // Đếm số dòng trong multiLineText
-        const lineCount = (multiLineText.match(/\n/g) || []).length + 1;
-        console.log(`Số dòng: ${lineCount}`);
-        console.log(`Dữ liệu trong ô: ${multiLineText}`);
+    const handleBuyButtonPress = async () => {
+
+        const res = await postTiktokTym(memoryCode, path, quantity);
+        console.log(res);
+
     };
 
     return (
@@ -50,7 +50,7 @@ const TiktokTymScreen = () => {
                 value={quantity}
                 keyboardType="numeric"
             />
-           
+
             <View style={styles.resultContainer}>
                 <Text style={styles.resultLabel}>Thành tiền:</Text>
                 <Text style={styles.resultText}>{calculateTotal()} đ</Text>
@@ -73,7 +73,7 @@ const TiktokTymScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-         padding: 20,
+        padding: 20,
         backgroundColor: '#fff',
     },
     label: {
@@ -159,4 +159,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default  TiktokTymScreen;
+export default TiktokTymScreen;

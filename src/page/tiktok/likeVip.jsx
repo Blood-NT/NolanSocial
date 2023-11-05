@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { postTiktokLikeVip } from '../../api/tiktokAPI';
 
 const TiktokLikeVipScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [selectedAlbum, setSelectedAlbum] = useState('');
-    const [selectedSpeed, setSelectedSpeed] = useState('');
+    const [selectedServer, setSelectedServer] = useState('sv1');
     const [selectedLike, setSelectedLike] = useState('');
     const [selectedDay, setSelectedDay] = useState('7');
 
     const calculateTotal = () => {
-        const pricePerSpeed = selectedSpeed === 'Thấp' ? 10 : 20;
+        const pricePerSpeed = selectedServer === 'sv1' ? 10 : 20;
         const parsedQuantity = parseFloat(quantity);
 
         if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
@@ -22,6 +22,11 @@ const TiktokLikeVipScreen = () => {
         const total = parsedQuantity * pricePerSpeed;
         return total.toFixed(2);
     };
+
+    const handleBuyButtonPress = async() => {
+        const res = await postTiktokLikeVip(memoryCode, path, quantity, selectedDay, selectedLike, selectedServer);
+        console.log(res);
+    }
 
     return (
         <View style={styles.container}>
@@ -74,18 +79,18 @@ const TiktokLikeVipScreen = () => {
 
             <Text style={styles.label}>Server:</Text>
             <Picker
-                selectedValue={selectedSpeed}
+                selectedValue={selectedServer}
                 style={styles.picker}
-                onValueChange={(itemValue, itemIndex) => setSelectedSpeed(itemValue)}
+                onValueChange={(itemValue, itemIndex) => setSelectedServer(itemValue)}
             >
-                <Picker.Item label="server 1" value="Thấp" />
-                <Picker.Item label="server 2" value="Cao" />
+                <Picker.Item label="server 1" value="sv1" />
+                <Picker.Item label="server 2" value="sv2" />
             </Picker>
             <View style={styles.resultContainer}>
                 <Text style={styles.resultLabel}>Thành tiền:</Text>
                 <Text style={styles.resultText}>{calculateTotal()} đ</Text>
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleBuyButtonPress}>
                 <Text style={styles.buttonText}>Mua</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.importantButton}>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { postTiktokCmt } from '../../api/tiktokAPI';
 
 const TiktokCmtScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
@@ -19,12 +20,16 @@ const TiktokCmtScreen = () => {
         return total.toFixed(2);
     };
 
-    const handleBuyButtonPress = () => {
+    const handleBuyButtonPress = async() => {
         // Đếm số dòng trong multiLineText
         const lineCount = (multiLineText.match(/\n/g) || []).length + 1;
         console.log(`Số dòng: ${lineCount}`);
         console.log(`Dữ liệu trong ô: ${multiLineText}`);
+        const res = await postTiktokCmt(memoryCode, path, quantity, multiLineText);
+
+        console.log(res);
     };
+
 
     return (
         <View style={styles.container}>

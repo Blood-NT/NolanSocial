@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 import { notifiContext } from '../context/notifiContext';
-import { login } from '../api/userAPI';
+import { login, loginByToken } from '../api/userAPI';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -19,10 +19,24 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const { setNotifi } = useContext(notifiContext);
 
+  // useEffect(() => {
+  //   const checkLogin = async () => {
+  //     const res = await loginByToken();
+  //     if (res.statusCode === "200") {
+  //       setUser(res.data);
+  //     if (isLoggedIn === 'true') {
+  //       navigation.navigate('HomeScreen');
+  //     }
+  //   };
+  // }
+  //   checkLogin();
+  // }
+  // , []);
+
+
   const handleLogin = async () => {
     // Xử lý đăng nhập ở đây (kiểm tra tên người dùng và mật khẩu, gọi API, vv.)
     // Nếu đăng nhập thành công, lưu trạng thái đăng nhập
-    console.log("click");
     if (!username || !password) {
       // Nếu người dùng để trống một trong các ô input, focus vào ô trống
       if (!username) {
@@ -33,29 +47,24 @@ export default function LoginScreen() {
         setPassword('');
         setNotifi(['Mật khẩu không được để trống']);
       }
+      const res = await login(username, password);
+      console.log("res",res.data);
+      // nếu tích vào ghi nhớ đăng nhập thì lưu trạng thái tự động vào local
+      // await AsyncStorage.setItem("accessToken", res.data.accessToken);
+      // await AsyncStorage.setItem("refreshToken", res.data.refreshToken);
       return;
     }
-
     const res = await login(username, password);
     console.log("click done");
-
     console.log(res);
     setNotifi(['Đăng nhập thành công']);
-
-
-
-
     console.log('done');
     await SecureStore.setItemAsync('isLoggedIn', 'true');
-
-
     // Chuyển đến trang Home
     navigation.navigate('HomeScreen');
   };
-
   const handleLogout = async () => {
     await SecureStore.setItemAsync('isLoggedIn', 'false');
-
     navigation.navigate('Login');
   };
 

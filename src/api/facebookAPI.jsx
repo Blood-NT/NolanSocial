@@ -1,13 +1,13 @@
 import axios from "axios";
 import { format } from 'date-fns';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { get } from "react-native/libraries/turbomodule/turbomoduleregistry";
+import { id } from "date-fns/locale";
+// import { get } from "react-native/libraries/turbomodule/turbomoduleregistry";
 
 
 const getIDAPI = "https://id.traodoisub.com/api.php"
 
-const apiUrlFB = "http://192.168.1.5:8083/facebook";
-
+const apiUrlFB = "http://192.168.1.25:8083/facebook";
 
 const getDay = () => {
   const now = new Date();
@@ -34,7 +34,7 @@ const postFBCmt = async (memoryCode, path, quantity, multiLineText) => {
   formDataFbCmt.append('memoryCode', memoryCode);
   formDataFbCmt.append('quantity', quantity);
   formDataFbCmt.append('multiLineText', multiLineText);
-  const id = getIDfromLink(path);
+  const id = await getIDfromLink(path);
   formDataFbCmt.append('id', id);
   try {
     const res = await axios.post(`${apiUrlFB}/cmt`, formDataFbCmt, {
@@ -42,8 +42,7 @@ const postFBCmt = async (memoryCode, path, quantity, multiLineText) => {
         'Content-Type': 'multipart/form-data',
       },
     });
-
-    return res.data;
+  return res.data;
   } catch (error) {
     console.log(`${error}`);
   }
@@ -54,7 +53,7 @@ const postFBFollow = async (memoryCode, path, quantity) => {
   fbdollowFormData.append('memoryCode', memoryCode);
   fbdollowFormData.append('quantity', quantity);
 
-  const id = getIDfromLink(path);
+  const id = await getIDfromLink(path);
 
   fbdollowFormData.append('id', id);
   try {
@@ -63,7 +62,7 @@ const postFBFollow = async (memoryCode, path, quantity) => {
         'Content-Type': 'multipart/form-data',
       },
     });
-     console.log("checkDay",getDay());
+    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
@@ -76,9 +75,8 @@ const postFBLike = async (memoryCode, path, quantity, selectedAlbum, selectedSpe
   formDataFBLike.append('quantity', quantity);
   formDataFBLike.append('selectedAlbum', selectedAlbum);
   formDataFBLike.append('selectedSpeed', selectedSpeed);
-
-  const id = getIDfromLink(path);
-
+  console.log("iss ok 1");
+  const id = await getIDfromLink(path);
   formDataFBLike.append('id', id);
   try {
     const res = await axios.post(`${apiUrlFB}/like`, formDataFBLike, {
@@ -86,11 +84,13 @@ const postFBLike = async (memoryCode, path, quantity, selectedAlbum, selectedSpe
         'Content-Type': 'multipart/form-data',
       },
     });
-     console.log("checkDay",getDay());
+    console.log("checkDay", getDay());
+
     return res.data;
   } catch (error) {
     console.log(`${error}`);
   }
+
 }
 
 const postFBLikePage = async (memoryCode, path, quantity) => {
@@ -99,7 +99,7 @@ const postFBLikePage = async (memoryCode, path, quantity) => {
   formdataFBLikePage.append('quantity', quantity);
 
 
-  const id = getIDfromLink(path);
+  const id = await getIDfromLink(path);
 
   formdataFBLikePage.append('id', id);
   try {
@@ -108,20 +108,20 @@ const postFBLikePage = async (memoryCode, path, quantity) => {
         'Content-Type': 'multipart/form-data',
       },
     });
-     console.log("checkDay",getDay());
+    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
   }
 };
 
-const postFBLikeTym = async (memoryCode, path, quantity,selectedAlbum,selectedSpeed) => {
+const postFBLikeTym = async (memoryCode, path, quantity, selectedAlbum, selectedSpeed) => {
   const formdataFBLikeTym = new FormData();
- formdataFBLikeTym.append('memoryCode', memoryCode);
+  formdataFBLikeTym.append('memoryCode', memoryCode);
   formdataFBLikeTym.append('quantity', quantity);
   formdataFBLikeTym.append('selectedAlbum', selectedAlbum);
   formdataFBLikeTym.append('selectedSpeed', selectedSpeed);
-  const id = getIDfromLink(path);
+  const id = await getIDfromLink(path);
   formdataFBLikeTym.append('id', id);
   try {
     const res = await axios.post(`${apiUrlFB}/like-tym`, formdataFBLikeTym, {
@@ -129,7 +129,7 @@ const postFBLikeTym = async (memoryCode, path, quantity,selectedAlbum,selectedSp
         'Content-Type': 'multipart/form-data',
       },
     });
-     console.log("checkDay",getDay());
+    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
@@ -141,16 +141,16 @@ const postFBLikeTymCmt = async (memoryCode, path, quantity, selectedSpeed) => {
   formDataLogin.append('memoryCode', memoryCode);
   formDataLogin.append('quantity', quantity);
   formDataLogin.append('selectedSpeed', selectedSpeed);
-  const id = getIDfromLink(path);
+  const id = await getIDfromLink(path);
   formDataLogin.append('id', id);
-  
+
   try {
     const res = await axios.post(`${apiUrlFB}/like-tym-cmt`, formDataLogin, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-     console.log("checkDay",getDay());
+    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
@@ -163,7 +163,7 @@ const postFBLikeVip = async (memoryCode, path, quantity, selectedLike, selectedD
   formDataLogin.append('selectedLike', selectedLike);
   formDataLogin.append('selectedDay', selectedDay);
   formDataLogin.append('selectedSpeed', selectedSpeed);
-  const id = getIDfromLink(path);
+  const id = await getIDfromLink(path);
   formDataLogin.append('id', id);
 
   try {
@@ -172,7 +172,7 @@ const postFBLikeVip = async (memoryCode, path, quantity, selectedLike, selectedD
         'Content-Type': 'multipart/form-data',
       },
     });
-     console.log("checkDay",getDay());
+    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
@@ -182,7 +182,7 @@ const postFBShareFake = async (memoryCode, path, quantity) => {
   const formDataLogin = new FormData();
   formDataLogin.append('memoryCode', memoryCode);
   formDataLogin.append('quantity', quantity);
-  const id = getIDfromLink(path);
+  const id = await getIDfromLink(path);
   formDataLogin.append('id', id);
 
   try {
@@ -191,7 +191,7 @@ const postFBShareFake = async (memoryCode, path, quantity) => {
         'Content-Type': 'multipart/form-data',
       },
     });
-     console.log("checkDay",getDay());
+    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
@@ -201,7 +201,7 @@ const postFBShareReal = async (memoryCode, path, quantity) => {
   const formDataLogin = new FormData();
   formDataLogin.append('memoryCode', memoryCode);
   formDataLogin.append('quantity', quantity);
-  const id = getIDfromLink(path);
+  const id = await getIDfromLink(path);
   formDataLogin.append('id', id);
 
   try {
@@ -210,7 +210,7 @@ const postFBShareReal = async (memoryCode, path, quantity) => {
         'Content-Type': 'multipart/form-data',
       },
     });
-     console.log("checkDay",getDay());
+    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
@@ -220,16 +220,16 @@ const postFBViewStory = async (memoryCode, path, quantity) => {
   const formDataLogin = new FormData();
   formDataLogin.append('memoryCode', memoryCode);
   formDataLogin.append('quantity', quantity);
-  const id = getIDfromLink(path);
+  const id = await getIDfromLink(path);
   formDataLogin.append('id', id);
-  
+
   try {
     const res = await axios.post(`${apiUrlFB}/view-story`, formDataLogin, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-     console.log("checkDay",getDay());
+    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);

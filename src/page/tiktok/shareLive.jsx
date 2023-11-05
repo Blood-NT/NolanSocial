@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { postTiktokShareLive } from '../../api/tiktokAPI';
 
 const TiktokShareLiveScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [multiLineText, setMultiLineText] = useState('');
 
     const calculateTotal = () => {
         const parsedQuantity = parseFloat(quantity);
@@ -18,11 +18,11 @@ const TiktokShareLiveScreen = () => {
         return total.toFixed(2);
     };
 
-    const handleBuyButtonPress = () => {
-        // Đếm số dòng trong multiLineText
-        const lineCount = (multiLineText.match(/\n/g) || []).length + 1;
-        console.log(`Số dòng: ${lineCount}`);
-        console.log(`Dữ liệu trong ô: ${multiLineText}`);
+    const handleBuyButtonPress = async() => {
+ 
+        const res = await postTiktokShareLive(memoryCode, path, quantity);
+        console.log(res);
+
     };
 
     return (

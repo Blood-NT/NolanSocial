@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-
+import { postFBLikeTymCmt } from '../../api/facebookAPI';
 const FBLikeTymCMTScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
@@ -19,7 +19,7 @@ const FBLikeTymCMTScreen = () => {
         return total;
     };
     const handleBuyButton = async () => {
-        const res = await postFBLikeTymCMT(memoryCode, path, quantity, selectedSpeed);
+        const res = await postFBLikeTymCmt(memoryCode, path, quantity, selectedSpeed);
         console.log(res);
     }
     

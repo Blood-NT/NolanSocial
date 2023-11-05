@@ -1,24 +1,34 @@
 import axios from "axios";
 import { format } from 'date-fns';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-
-// const userAPI = "http://192.168.149.238:8083/user";
-const userAPI = "http://192.168.2.24:8083/user";
+import { ca } from "date-fns/locale";
+const userAPI = "http://192.168.1.25:8083/user";
 
 
 
-const login = async (email, password) => {
-const body = {
-  email:email,
-  password:password,
-}
-const res = await axios.post(`${userAPI}/login`, body);
-console.log("object");
-
-return res.data;
+const login = async (id, password) => {
+  const body = {
+    id: id,
+    password: password,
+  }
+  const res = await axios.post(`${userAPI}/login`, body);
+  console.log("object");
+  console.log("tokle",res.data.accessToken);
+  return res.data;
 }
 
+const loginByToken = async () => {
+  try {
+    const refreshToken = await AsyncStorage.getItem("refreshToken");
+    const res = await axios.post(`${userAPI}/user/login-token`, {
+      refreshToken: refreshToken,
+    });
+    // console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log(`${error}`);
+  }
+};
 // const login = async (email, password) => {
 //   const formDataLogin = new FormData();
 //   formDataLogin.append('username', email);
@@ -47,18 +57,17 @@ return res.data;
 //   }
 // };
 
-const checkData=async()=>
-{
+const checkData = async () => {
   console.log("kkk", await AsyncStorage.getItem("cookie"));
 
 }
 
 const Mualike = async () => {
- 
+
   const now = new Date();
   const formattedTime = format(now, 'yyyy-M-d H:m:s');
-  console.log("time",formattedTime);
-  const cookie= await AsyncStorage.getItem("cookie");
+  console.log("time", formattedTime);
+  const cookie = await AsyncStorage.getItem("cookie");
   const formDataLike = new FormData();
   formDataLike.append('maghinho', "");
   formDataLike.append('id', 682372180583724);
@@ -70,7 +79,7 @@ const Mualike = async () => {
   try {
     const res = await axios.post("https://traodoisub.com/mua/like/themid.php", formDataLike, {
       headers: {
-     
+
         'Cookies': cookie,
         'Content-Type': 'multipart/form-data',
       },
@@ -82,9 +91,26 @@ const Mualike = async () => {
   }
 };
 
-
+const Register = async(userName, password,email)=>{
+  const data = {
+    id:userName,
+    password:password,
+    email:email
+  }
+  try
+  {
+    const res = await axios.post (`${userAPI}/register`,data)
+    console.log("register",res.data);
+    return res.data;
+  }
+  catch(error){
+    console.log("cheat ",`${error}`);
+}
+}
 export {
   login,
   checkData,
-  Mualike
+  Mualike,
+  loginByToken,
+  Register
 };

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { postFBViewStory } from '../../api/facebookAPI';
-
 const FBViewStoryScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
@@ -19,7 +18,6 @@ const FBViewStoryScreen = () => {
     };
 
     const handleBuyButtonPress = async() => {
-        // Đếm số dòng trong multiLineText
         const res = await postFBViewStory(memoryCode, path, quantity);
         console.log(res);
 
