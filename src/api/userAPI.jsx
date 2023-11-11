@@ -1,8 +1,7 @@
 import axios from "axios";
 import { format } from 'date-fns';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ca } from "date-fns/locale";
-const userAPI = "http://192.168.1.25:8083/user";
+const userAPI = "http://192.168.2.24:8083/user";
 
 
 
@@ -107,6 +106,9 @@ const Register = async(userName, password,email)=>{
     console.log("cheat ",`${error}`);
 }
 }
+
+// viết hàm xóa user
+  
 export {
   login,
   checkData,

@@ -5,7 +5,7 @@
 
 
 
-// const apiUrlTiktok = "http://192.168.1.25:8083/tiktok";
+// const apiUrlTiktok = "http://192.168.2.24:8083/tiktok";
 
 // const getDay = () => {
 //   const now = new Date();
@@ -171,7 +171,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
-const apiUrlTiktok = "http://192.168.1.25:8083/tiktok";
+const apiUrlTiktok = "http://192.168.2.24:8083/tiktok";
 
 const getDay = () => {
   const now = new Date();

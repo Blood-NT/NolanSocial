@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
-const apiUrlINS = "http://192.168.1.25:8083/instagram";
+const apiUrlINS = "http://192.168.2.24:8083/instagram";
 
 const getDay = () => {
   const now = new Date();

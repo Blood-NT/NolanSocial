@@ -7,7 +7,7 @@ import { id } from "date-fns/locale";
 
 const getIDAPI = "https://id.traodoisub.com/api.php"
 
-const apiUrlFB = "http://192.168.1.25:8083/facebook";
+const apiUrlFB = "http://192.168.2.24:8083/facebook";
 
 const getDay = () => {
   const now = new Date();
