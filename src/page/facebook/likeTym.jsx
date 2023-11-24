@@ -20,6 +20,36 @@ const FBLikeTymScreen = () => {
         return total.toFixed(2);
     };
     const handleBuyButtonPress = async () => {
+        // Kiểm tra các ô input
+        if (!memoryCode) {
+            setMemoryCode('');
+            return;
+        }
+        if (!path) {
+            setPath('');
+            return;
+        }
+        if (!quantity) {
+            setQuantity('');
+            return;
+        }
+        //quantity phải lớn hơn 100
+        if (quantity < 100) {
+            alert('số lượng phải lớn hơn 100');
+            return;
+        }
+        //quantity phải nhỏ hơn 10000
+        if (quantity > 10000) {
+            alert('số lượng phải nhỏ hơn 10000');
+            return;
+        }
+        // path phải là link
+        if (path != /https/) {
+            alert('đường dẫn phải là link');
+            return;
+        }
+
+        
         const res = await postFBLikeTym(memoryCode, path, quantity,selectedAlbum,selectedSpeed);
         console.log(res);
     };

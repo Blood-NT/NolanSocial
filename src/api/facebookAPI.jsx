@@ -2,12 +2,17 @@ import axios from "axios";
 import { format } from 'date-fns';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { id } from "date-fns/locale";
+
+
 // import { get } from "react-native/libraries/turbomodule/turbomoduleregistry";
+
 
 
 const getIDAPI = "https://id.traodoisub.com/api.php"
 
-const apiUrlFB = "http://192.168.2.24:8083/facebook";
+const apiUrlFB = "http://192.168.1.54:8083/facebook";
+
+const user = "admin";
 
 const getDay = () => {
   const now = new Date();
@@ -18,7 +23,7 @@ const getIDfromLink = async (link) => {
   const idformdata = new FormData();
   idformdata.append('link', link);
   try {
-    const idres = await axios.post(getIDAPI, idformdata, {
+    const idres = await axios.post(getIDAPI, idformdata,{
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -27,209 +32,225 @@ const getIDfromLink = async (link) => {
   } catch (error) {
     console.log(`${error}`);
   }
+}
+const postFBCmt = async (path, quantity, multiLineText) => {
+  const getid = await getIDfromLink(path);
+  const date = getDay();
+  const dataSend =
+  {
+    id: getid,
+    sl: quantity,
+    noidung: multiLineText,
+    dateTime: date,
+    uid: user,
+  }
+  console.log("url", `${apiUrlFB}/cmt`);
+  console.log("id", getid);
+  try {
+    const res = await axios.post(`${apiUrlFB}/cmt`, dataSend, {
+      headers: {
+        access_token: "accessToken"
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(`${error}`);
+  }
+};
+const postFBFollow = async (path, quantity) => {
+  const id = await getIDfromLink(path);
+  const date = getDay();
+  const datasend = {
+    id: id,
+    sl: quantity,
+    dateTime: date,
+    uid: user,
+  }
+  try {
+    const res = await axios.post(`${apiUrlFB}/follow`, datasend, {
+      headers: {
+        //        access_token: "accessToken"
+
+        // access_token: localStorage.getItem("accessToken") 
+        access_token: "accessToken"
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(`${error}`);
+  }
+};
+
+const postFBLike = async (path, quantity, selectedAlbum, selectedSpeed) => {
+  const id = await getIDfromLink(path);
+  const date = getDay();
+  const datasend = {
+    id: id,
+    sl: quantity,
+    is_album: selectedAlbum,
+    speed: selectedSpeed,
+    dateTime: date,
+    uid: user,
+  }
+  try {
+    const res = await axios.post(`${apiUrlFB}/like`, datasend, {
+      headers: {
+        access_token: "accessToken"
+      },
+    });
+    console.log("checkDay", getDay());
+
+    return res.data;
+  } catch (error) {
+    console.log(`${error}`);
+  }
 
 }
-const postFBCmt = async (memoryCode, path, quantity, multiLineText) => {
-  const formDataFbCmt = new FormData();
-  formDataFbCmt.append('memoryCode', memoryCode);
-  formDataFbCmt.append('quantity', quantity);
-  formDataFbCmt.append('multiLineText', multiLineText);
+
+const postFBLikePage = async (path, quantity) => {
   const id = await getIDfromLink(path);
-  formDataFbCmt.append('id', id);
-  try {
-    const res = await axios.post(`${apiUrlFB}/cmt`, formDataFbCmt, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  return res.data;
-  } catch (error) {
-    console.log(`${error}`);
+  const date = getDay();
+  const datasend = {
+    id: id,
+    sl: quantity,
+    dateTime: date,
+    uid: user,
   }
-};
-
-const postFBFollow = async (memoryCode, path, quantity) => {
-  const fbdollowFormData = new FormData();
-  fbdollowFormData.append('memoryCode', memoryCode);
-  fbdollowFormData.append('quantity', quantity);
-
-  const id = await getIDfromLink(path);
-
-  fbdollowFormData.append('id', id);
   try {
-    const res = await axios.post(`${apiUrlFB}/follow`, fbdollowFormData, {
+    const res = await axios.post(`${apiUrlFB}//like-page`, datasend, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        access_token: "accessToken"
       },
     });
-    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
   }
 };
 
-const postFBLike = async (memoryCode, path, quantity, selectedAlbum, selectedSpeed) => {
-  const formDataFBLike = new FormData();
-  formDataFBLike.append('memoryCode', memoryCode);
-  formDataFBLike.append('quantity', quantity);
-  formDataFBLike.append('selectedAlbum', selectedAlbum);
-  formDataFBLike.append('selectedSpeed', selectedSpeed);
-  console.log("iss ok 1");
+const postFBLikeTym = async (path, quantity, selectedAlbum, selectedSpeed) => {
   const id = await getIDfromLink(path);
-  formDataFBLike.append('id', id);
-  try {
-    const res = await axios.post(`${apiUrlFB}/like`, formDataFBLike, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    console.log("checkDay", getDay());
-
-    return res.data;
-  } catch (error) {
-    console.log(`${error}`);
+  const date = getDay();
+  const datasend = {
+    id: id,
+    sl: quantity,
+    dateTime: date,
+    loaicx: selectedAlbum,
+    speed: selectedSpeed,
+    uid: user,
   }
-
-}
-
-const postFBLikePage = async (memoryCode, path, quantity) => {
-  const formdataFBLikePage = new FormData();
-  formdataFBLikePage.append('memoryCode', memoryCode);
-  formdataFBLikePage.append('quantity', quantity);
-
-
-  const id = await getIDfromLink(path);
-
-  formdataFBLikePage.append('id', id);
   try {
-    const res = await axios.post(`${apiUrlFB}//like-page`, formdataFBLikePage, {
+    const res = await axios.post(`${apiUrlFB}/like-tym`, datasend, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        access_token: "accessToken"
       },
     });
-    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
   }
 };
 
-const postFBLikeTym = async (memoryCode, path, quantity, selectedAlbum, selectedSpeed) => {
-  const formdataFBLikeTym = new FormData();
-  formdataFBLikeTym.append('memoryCode', memoryCode);
-  formdataFBLikeTym.append('quantity', quantity);
-  formdataFBLikeTym.append('selectedAlbum', selectedAlbum);
-  formdataFBLikeTym.append('selectedSpeed', selectedSpeed);
+const postFBLikeTymCmt = async (path, quantity, selectedSpeed) => {
   const id = await getIDfromLink(path);
-  formdataFBLikeTym.append('id', id);
+  const date = getDay();
+  const datasend = {
+    id: id,
+    sl: quantity,
+    loaicx: selectedSpeed,
+    dateTime: date,
+    uid: user,
+  }
   try {
-    const res = await axios.post(`${apiUrlFB}/like-tym`, formdataFBLikeTym, {
+    const res = await axios.post(`${apiUrlFB}/like-tym-cmt`, datasend, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        access_token: "accessToken"
       },
     });
-    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
   }
 };
-
-const postFBLikeTymCmt = async (memoryCode, path, quantity, selectedSpeed) => {
-  const formDataLogin = new FormData();
-  formDataLogin.append('memoryCode', memoryCode);
-  formDataLogin.append('quantity', quantity);
-  formDataLogin.append('selectedSpeed', selectedSpeed);
+const postFBLikeVip = async (path, selectServer, selectday, selectquantify, selectPost) => {
+  const date = getDay();
   const id = await getIDfromLink(path);
-  formDataLogin.append('id', id);
-
-  try {
-    const res = await axios.post(`${apiUrlFB}/like-tym-cmt`, formDataLogin, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    console.log("checkDay", getDay());
-    return res.data;
-  } catch (error) {
-    console.log(`${error}`);
+  const datasend = {
+    id: id,
+    server: selectServer,
+    time_pack: selectday,
+    packer: selectquantify,
+    post: selectPost,
+    dateTime: date,
+    uid: user,
   }
-};
-const postFBLikeVip = async (memoryCode, path, quantity, selectedLike, selectedDay, selectedSpeed) => {
-  const formDataLogin = new FormData();
-  formDataLogin.append('memoryCode', memoryCode);
-  formDataLogin.append('quantity', quantity);
-  formDataLogin.append('selectedLike', selectedLike);
-  formDataLogin.append('selectedDay', selectedDay);
-  formDataLogin.append('selectedSpeed', selectedSpeed);
-  const id = await getIDfromLink(path);
-  formDataLogin.append('id', id);
-
   try {
-    const res = await axios.post(`${apiUrlFB}/like-vip`, formDataLogin, {
+    const res = await axios.post(`${apiUrlFB}/like-vip`, datasend, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        access_token: "accessToken"
       },
     });
-    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
   }
 };
 const postFBShareFake = async (memoryCode, path, quantity) => {
-  const formDataLogin = new FormData();
-  formDataLogin.append('memoryCode', memoryCode);
-  formDataLogin.append('quantity', quantity);
+  const date = getDay();
   const id = await getIDfromLink(path);
-  formDataLogin.append('id', id);
-
+  const datasend = {
+    id: id,
+    sl: quantity,
+    dateTime: date,
+    uid: user,
+  }
   try {
-    const res = await axios.post(`${apiUrlFB}/share-fake`, formDataLogin, {
+    const res = await axios.post(`${apiUrlFB}/share-fake`, datasend, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        access_token: "accessToken"
       },
     });
-    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
   }
 };
 const postFBShareReal = async (memoryCode, path, quantity) => {
-  const formDataLogin = new FormData();
-  formDataLogin.append('memoryCode', memoryCode);
-  formDataLogin.append('quantity', quantity);
+  const date = getDay();
   const id = await getIDfromLink(path);
-  formDataLogin.append('id', id);
-
+  const datasend = {
+    id: id,
+    sl: quantity,
+    dateTime: date,
+    uid: user,
+  }
   try {
-    const res = await axios.post(`${apiUrlFB}/share-real`, formDataLogin, {
+    const res = await axios.post(`${apiUrlFB}/share-real`, datasend, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        access_token: "accessToken"
       },
     });
-    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);
   }
 };
 const postFBViewStory = async (memoryCode, path, quantity) => {
-  const formDataLogin = new FormData();
-  formDataLogin.append('memoryCode', memoryCode);
-  formDataLogin.append('quantity', quantity);
+  const date = getDay();
   const id = await getIDfromLink(path);
-  formDataLogin.append('id', id);
 
+  const datasend = {
+    id: id,
+    sl: quantity,
+    dateTime: date,
+    uid: user,
+  }
   try {
-    const res = await axios.post(`${apiUrlFB}/view-story`, formDataLogin, {
+    const res = await axios.post(`${apiUrlFB}/view-story`, datasend, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        access_token: "accessToken"
       },
     });
-    console.log("checkDay", getDay());
     return res.data;
   } catch (error) {
     console.log(`${error}`);

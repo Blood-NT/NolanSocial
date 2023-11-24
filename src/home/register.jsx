@@ -11,49 +11,7 @@ export default function RegisterScreen() {
   const [rePassword, setRePassword] = useState('');
   const [email, setEmail] = useState('');
   const handleRegister = async () => {
-    // kiểm tra các ô input
-    if (!username) {
-      setUsername('');
-      return;
-    }
-    //usename không được chứa ký tự đặc biệt
-    if (username != /[A-Za-z0-9]/) {
-      setUsername('');
-      return;
-    }
-
-    if (!password) {
-      setPassword('');
-      return;
-    }
-    if (!email) {
-      setemail('');
-      return;
-    }
-    // mật khẩu chỉ được số hoặc chữ cái và mật khẩu tối thiểu là 6 ký tự, tối đa 30 ký tự
-    if (password.length < 6 || password.length > 30) {
-      setPassword('');
-      return;
-    }
-    // mật khẩu chỉ được số hoặc chữ cái
-    if (password != /[A-Za-z0-9]/) {
-      setPassword('');
-      return;
-    }
-    // email phải có @ và .
-    if (email != /[@.]/) {
-      setemail('');
-      return;
-    }
-
-
-
-    // neeus maatj khaaur vaf nhaapj laij khoong trungf nhau thif thongg baoos
-    if (password != rePassword) {
-      setRePassword('');
-      // thông báo 2 mật khẩu phải trùng nhau
-      return;
-    }
+   
     const res = await Register(username, password, email);
     console.log("click register done", res);
     // Xử lý đăng nhập ở đây (kiểm tra tên người dùng và mật khẩu, gọi API, vv.)

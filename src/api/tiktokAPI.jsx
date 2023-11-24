@@ -171,26 +171,28 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
-const apiUrlTiktok = "http://192.168.2.24:8083/tiktok";
+const apiUrlTiktok = "http://192.168.1.4:8083/tiktok";
 
 const getDay = () => {
   const now = new Date();
   const formattedTime = format(now, 'yyyy-M-d H:m:s');
   return formattedTime;
 }
-
-const postTiktokCmt = async (memoryCode, path, quantity, multiLineText) => {
+const user = "admin";
+const postTiktokCmt = async ( path, quantity, multiLineText) => {
+  const date = getDay();
   const data = {
-    memoryCode,
-    quantity,
-    multiLineText,
-    path,
+    id: path,
+    sl: quantity,
+    dateTime: date,
+    noidung: multiLineText,
+    user: user,
   };
-
   try {
     const res = await axios.post(`${apiUrlTiktok}/cmt`, data, {
       headers: {
         'Content-Type': 'application/json',
+        access_token: "accessToken"
       },
     });
     console.log("checkDay", getDay());
@@ -201,17 +203,20 @@ const postTiktokCmt = async (memoryCode, path, quantity, multiLineText) => {
 };
 
 
-const postTiktokFollow = async (memoryCode, path, quantity) => {
-  const data = {
-    memoryCode,
-    quantity,
-    path,
-  };
+const postTiktokFollow = async ( path, quantity) => {
 
+  const date = getDay();
+  const data = {
+    id: path,
+    sl: quantity,
+    dateTime: date,
+    user: user,
+  };
   try {
     const res = await axios.post(`${apiUrlTiktok}/follow`, data, {
       headers: {
         'Content-Type': 'application/json',
+        access_token: "accessToken"
       },
     });
     console.log("checkDay", getDay());
@@ -221,17 +226,20 @@ const postTiktokFollow = async (memoryCode, path, quantity) => {
   }
 }
 
-const postTiktokTym = async (memoryCode, path, quantity) => {
+const postTiktokTym = async ( path, quantity) => {
+ const date = getDay();
   const data = {
-    memoryCode,
-    quantity,
-    path,
+    id: path,
+    sl: quantity,
+    dateTime: date,
+    user: user,
   };
 
   try {
     const res = await axios.post(`${apiUrlTiktok}/tym-video`, data, {
       headers: {
         'Content-Type': 'application/json',
+        access_token: "accessToken"
       },
     });
     console.log("checkDay", getDay());
@@ -241,20 +249,24 @@ const postTiktokTym = async (memoryCode, path, quantity) => {
   }
 }
 
-const postTiktokLikeVip = async (memoryCode, path, quantity, selectedDay, selectedLike, selectedSpeed) => {
-  const data = {
-    memoryCode,
-    quantity,
-    path,
-    selectedDay,
-    selectedLike,
-    selectedSpeed
+const postTiktokLikeVip = async  (path, quantity, selectedDay, selectedLike, selectedSpeed) => {
+ const date = getDay();
+ const data = {
+    id: path,
+    server: selectedSpeed,
+    time_pack: selectedDay,
+    packet_min: selectedLike,
+    packet_max: selectedLike,
+    post: quantity,
+    dateTime: date,
+    user: user,
   };
 
   try {
     const res = await axios.post(`${apiUrlTiktok}/like-vip`, data, {
       headers: {
         'Content-Type': 'application/json',
+        access_token: "accessToken"
       },
     });
     console.log("checkDay", getDay());
@@ -274,6 +286,7 @@ const postTiktokShare = async (memoryCode, path, quantity) => {
     const res = await axios.post(`${apiUrlTiktok}/share`, data, {
       headers: {
         'Content-Type': 'application/json',
+        access_token: "accessToken"
       },
     });
     console.log("checkDay", getDay());
@@ -294,6 +307,7 @@ const postTiktokShareLive = async (memoryCode, path, quantity) => {
     const res = await axios.post(`${apiUrlTiktok}/share-live`, data, {
       headers: {
         'Content-Type': 'application/json',
+        access_token: "accessToken"
       },
     });
     console.log("checkDay", getDay());
@@ -315,6 +329,7 @@ const postTiktokView = async (memoryCode, path, quantity) => {
     const res = await axios.post(`${apiUrlTiktok}/view`, data, {
       headers: {
         'Content-Type': 'application/json',
+        access_token: "accessToken"
       },
     });
     console.log("checkDay", getDay());
@@ -327,7 +342,6 @@ const postTiktokView = async (memoryCode, path, quantity) => {
 export {
   postTiktokCmt,
   postTiktokFollow,
-
   postTiktokLikeVip,
   postTiktokShareLive,
   postTiktokShare,

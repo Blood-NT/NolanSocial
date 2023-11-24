@@ -6,12 +6,12 @@ const FBLikeVipScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
     const [path, setPath] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [selectedSpeed, setSelectedSpeed] = useState('');
-    const [selectedLike, setSelectedLike] = useState('50');
-    const [selectedDay, setSelectedDay] = useState('7');
+    const [selectServer, setSelectServer] = useState('1');
+    const [selectquantify, setSelectquantify] = useState('50');
+    const [selectday, setSelecteday] = useState('7');
 
     const calculateTotal = () => {
-        const pricePerSpeed = selectedSpeed === 'Thấp' ? 10 : 20;
+        const pricePerSpeed = selectServer === 'q' ? 10 : 20;
         const parsedQuantity = parseFloat(quantity);
 
         if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
@@ -26,7 +26,7 @@ const FBLikeVipScreen = () => {
         const res = await postFBLikeVip(memoryCode, path, quantity, selectedLike, selectedDay, selectedSpeed);
         console.log(res);
     }
-    
+
     return (
         <View style={styles.container}>
             <View style={styles.resultContainer}>
@@ -55,9 +55,9 @@ const FBLikeVipScreen = () => {
             />
             <Text style={styles.label}>Chọn số lượng ngày:</Text>
             <Picker
-                selectedValue={selectedLike}
+                selectedValue={selectday}
                 style={styles.picker}
-                onValueChange={(itemValue) => setSelectedLike(itemValue)}
+                onValueChange={(itemValue) => setSelecteday(itemValue)}
             >
                 <Picker.Item label="7 Ngày" value="7" />
                 <Picker.Item label="15 Ngày" value="15" />
@@ -65,14 +65,14 @@ const FBLikeVipScreen = () => {
                 <Picker.Item label="60 Ngày" value="60" />
                 <Picker.Item label="90 Ngày" value="90" />
                 <Picker.Item label="120 Ngày" value="120" />
-            
+
             </Picker>
 
-            <Text style={styles.label}>Chọn số lượng like:</Text>
+            <Text style={styles.label}>Chọn số lượng like mỗi bài:</Text>
             <Picker
-                selectedValue={selectedDay}
+                selectedValue={selectquantify}
                 style={styles.picker}
-                onValueChange={(itemValue) => setSelectedDay(itemValue)}
+                onValueChange={(itemValue) => setSelectquantify(itemValue)}
             >
                 <Picker.Item label="50 like" value="50" />
                 <Picker.Item label="100 like" value="100" />
@@ -91,12 +91,12 @@ const FBLikeVipScreen = () => {
             </Picker>
             <Text style={styles.label}>Server:</Text>
             <Picker
-                selectedValue={selectedSpeed}
+                selectedValue={selectServer}
                 style={styles.picker}
-                onValueChange={(itemValue, itemIndex) => setSelectedSpeed(itemValue)}
+                onValueChange={(itemValue, itemIndex) => setSelectServer(itemValue)}
             >
-                <Picker.Item label="server 1" value="Thấp" />
-                <Picker.Item label="server 2" value="Cao" />
+                <Picker.Item label="server 1" value="1" />
+                <Picker.Item label="server 2" value="2" />
             </Picker>
             <View style={styles.resultContainer}>
                 <Text style={styles.resultLabel}>Thành tiền:</Text>
@@ -122,7 +122,7 @@ const FBLikeVipScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-         padding: 20,
+        padding: 20,
         backgroundColor: '#fff',
     },
     label: {

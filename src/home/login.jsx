@@ -12,12 +12,13 @@ import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 import { notifiContext } from '../context/notifiContext';
 import { login, loginByToken } from '../api/userAPI';
-
+import { userContext } from '../context/userContext';
 export default function LoginScreen() {
   const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { setNotifi } = useContext(notifiContext);
+  const { user, setUser } = useContext(userContext);
 
   // useEffect(() => {
   //   const checkLogin = async () => {
@@ -37,28 +38,28 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     // Xử lý đăng nhập ở đây (kiểm tra tên người dùng và mật khẩu, gọi API, vv.)
     // Nếu đăng nhập thành công, lưu trạng thái đăng nhập
-    if (!username || !password) {
-      // Nếu người dùng để trống một trong các ô input, focus vào ô trống
-      if (!username) {
-        setUsername('');
-        setNotifi(['Tên đăng nhập không được để trống']);
-      }
-      if (!password) {
-        setPassword('');
-        setNotifi(['Mật khẩu không được để trống']);
-      }
-      const res = await login(username, password);
-      console.log("res",res.data);
-      // nếu tích vào ghi nhớ đăng nhập thì lưu trạng thái tự động vào local
-      // await AsyncStorage.setItem("accessToken", res.data.accessToken);
-      // await AsyncStorage.setItem("refreshToken", res.data.refreshToken);
-      return;
+    if (!username) {
+      setUsername('');
+      setNotifi(['Tên đăng nhập không được để trống']);
+      return
     }
+    if (!password) {
+      setPassword('');
+      setNotifi(['Mật khẩu không được để trống']);
+      return
+    }
+
     const res = await login(username, password);
-    console.log("click done");
-    console.log(res);
+    if (res.statusCode === 201) {
+      setNotifi(['Tên đăng nhập không tồn tại']);
+      return
+    }
     setNotifi(['Đăng nhập thành công']);
-    console.log('done');
+    setUser({
+      uid: res.user.id,
+      money: res.user.money,
+    });
+    await SecureStore.setItemAsync('uid', res.user.id);
     await SecureStore.setItemAsync('isLoggedIn', 'true');
     // Chuyển đến trang Home
     navigation.navigate('HomeScreen');

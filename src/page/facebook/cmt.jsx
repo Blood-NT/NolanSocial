@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import {postFBCmt} from "../../api/facebookAPI";
 const FBCmtScreen = () => {
     const [memoryCode, setMemoryCode] = useState('');
@@ -18,10 +17,34 @@ const FBCmtScreen = () => {
         return total.toFixed(2);
     };
 
+    const checkText = ["đéo", "chó", "đm"]
     const handleBuyButtonPress = async() => {
         // Đếm số dòng trong multiLineText
 
-        const res = await postFBCmt(memoryCode, path, quantity, multiLineText);
+        //multiLineText nếu có từ trong mảng checktext thì báo lỗi
+        for (let i = 0; i < checkText.length; i++) {
+            if (multiLineText.includes(checkText[i])) {
+                alert("không được chứa từ ngữ nhạy cảm")
+                return;
+            }
+        }
+        //quantity phải lớn hơn 100
+        if (quantity < 100) {
+            alert("số lượng phải lớn hơn 100")
+            return;
+        }
+        //quantity phải nhỏ hơn 10000
+        if (quantity > 10000) {
+            alert("số lượng phải nhỏ hơn 10000")
+            return;
+        }
+        // path phải là link
+        // if (path != /https/) {
+        //     alert("đường dẫn phải là link")
+        //     return;
+        // }
+        
+        const res = await postFBCmt( path, quantity, multiLineText);
 
         const lineCount = (multiLineText.match(/\n/g) || []).length + 1;
         console.log(`Số dòng: ${lineCount}`);

@@ -2,8 +2,11 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Mualike } from '../api/userAPI';
-
+import { notifiContext } from '../context/notifiContext';
+import { userContext } from '../context/userContext';
 const HomeScreen = () => {
+  const { setNotifi } = React.useContext(notifiContext);
+  const { user, setUser } = React.useContext(userContext);
   const navigation = useNavigation();
 
   const handleNapTienPress = async() => {
@@ -38,9 +41,9 @@ const HomeScreen = () => {
         {/* Ô bên trái hiển thị số tiền */}
         <TouchableOpacity
           style={styles.moneyContainer}
-          onPress={handleLichSuGiaoDichPress}
+          // onPress={handleLichSuGiaoDichPress}
         >
-          <Text style={styles.moneyText}>Số Tiềnn</Text>
+          <Text style={styles.moneyText}>{user.money}</Text>
           {/* Hiển thị số tiền ở đây */}
         </TouchableOpacity>
 

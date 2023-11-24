@@ -1,7 +1,7 @@
 import axios from "axios";
 import { format } from 'date-fns';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const userAPI = "http://192.168.2.24:8083/user";
+const userAPI = "http://192.168.1.54:8083/user";
 
 
 
@@ -11,8 +11,10 @@ const login = async (id, password) => {
     password: password,
   }
   const res = await axios.post(`${userAPI}/login`, body);
-  console.log("object");
-  console.log("tokle",res.data.accessToken);
+  if(res.data.statusCode === 201){
+    console.log("user không tồn tại");
+  }
+  console.log("aa",res.data.user);
   return res.data;
 }
 
@@ -91,6 +93,7 @@ const Mualike = async () => {
 };
 
 const Register = async(userName, password,email)=>{
+  console.log("ress");
   const data = {
     id:userName,
     password:password,
